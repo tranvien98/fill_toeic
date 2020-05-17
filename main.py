@@ -4,7 +4,7 @@ import requests
 import re
 app = Flask(__name__)
 
-# fill_bert = FillBert()
+fill_bert = FillBert()
 @app.route('/')
 def home():
     
@@ -20,7 +20,7 @@ def result():
     for i in range(1,5):
         print(questions[i])
         row[str(i)] = re.sub('</?.*?>','',questions[i].replace('(','<').replace(')', '>')).strip()
-    print(row)
+    row['answer'] = fill_bert.predict(row)
     return render_template('result.html', row=row)
 @app.route('/example')
 def example():
